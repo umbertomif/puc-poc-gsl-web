@@ -1,0 +1,130 @@
+<div class="container-fluid">
+    <app-pagetitle title="Pedido" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+    <div class="row">
+        <div class="col-lg-12">
+            <div *ngIf="mode=='view'" class="card">
+                <div class="card-body">
+                    <div class="dropdown float-right" ngbDropdown>
+                        <a href="javascript: void(0);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle
+                            data-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+                            <a href="javascript:void(0);" (click)="alterMode('add','')"
+                                class="dropdown-item">Adicionar</a>
+                        </div>
+                    </div>
+                    <h4 class="card-title mb-4">Lista de Pedidos</h4>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label
+                                    class="d-inline-flex align-items-center">Procurar:
+                                    <input type="text" name="searchTerm" class="form-control form-control-sm ml-2"
+                                        aria-controls="tickets-table" [(ngModel)]="term" /></label></div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-centered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Código da Ordem</th>
+                                    <th>Data</th>
+                                    <th>Acão</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of listOrderModel|filter:term">
+                                    <td>{{onUser(item.customerId)}}</td>
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.orderDate}}</td>
+                                    <td>
+                                        <a (click)="alterMode('edit',item.id)" class="mr-3 text-primary" ngbTooltip="Editar"><i
+                                                class="mdi mdi-pencil font-size-18"></i></a>
+                                        <a href="javascript:void(0);" (click)="delete(item.id)" class="text-danger" ngbTooltip="Excluir"><i
+                                                class="mdi mdi-trash-can font-size-18"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="visibleOrderItem && (mode=='add' || mode=='edit')" class="card">
+                <div class="card-body">
+                    <div class="dropdown float-right" ngbDropdown>
+                        <a href="javascript: void(0);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle
+                            data-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+                            <a href="javascript:void(0);" (click)="alterMode('view','')" class="dropdown-item">Lista de
+                                Pedidos</a>
+                        </div>
+                    </div>
+                    <h4 class="card-title mb-4">Formulário de pedidos</h4>
+                    <div class="form-horizontal">
+                        <label class="col-md-2 col-form-label">Clientes</label>
+                        <div class="form-group auth-form-group-custom mb-4">
+                            <div class="col-md-10">
+                                <select class="custom-select" [(ngModel)]="orderModel.customerId">
+                                    <option *ngFor="let item of listUserModel" [value]="item.id">{{item.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <h4 class="card-title mb-4">Produtos disponiveis</h4>
+
+                        <div class="table-responsive">
+                            <table class="table table-centered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Mercadoria</th>
+                                        <th>Depósito</th>
+                                        <th>Valor Unidade</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of listIventoryModel">
+                                        <td>{{onMerchandise(item.merchandiseId)}}</td>
+                                        <td>{{onDeposit(item.depositId)}}</td>
+                                        <td>{{onMerchandiseValue(item.merchandiseId)}}</td>
+                                        <td>
+                                            <div>
+                                                <button class="btn btn-primary w-md waves-effect waves-light" (click)="AddOderItem(item.merchandiseId, item.depositId, onMerchandiseValue(item.merchandiseId))" type="button">Adicionar</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <br>
+
+                        <h4 class="card-title mb-4">Produtos selecionados</h4>
+                        <table *ngIf="visibleOrderItemCart" class="table table-centered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Mercadoria</th>
+                                    <th>Depósito</th>
+                                    <th>Valor Unidade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of listOrderItemCartModel">
+                                    <td>{{onMerchandise(item.merchandiseId)}}</td>
+                                    <td>{{onDeposit(item.depositId)}}</td>
+                                    <td>{{onMerchandiseValue(item.merchandiseId)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <div class="text-center">
+                            <button class="btn btn-primary w-md waves-effect waves-light" (click)="save()" type="button">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

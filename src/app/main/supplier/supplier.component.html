@@ -1,0 +1,99 @@
+<div class="container-fluid">
+    <app-pagetitle title="Fornecedore" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+    <div class="row">
+        <div class="col-lg-12">
+            <div *ngIf="mode=='view'" class="card">
+                <div class="card-body">
+                    <div class="dropdown float-right" ngbDropdown>
+                        <a href="javascript: void(0);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle
+                            data-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+                            <a href="javascript:void(0);" (click)="alterMode('add','')" class="dropdown-item">Adicionar</a>
+                        </div>
+                    </div>
+                    <h4 class="card-title mb-4">Lista de Fornecedores</h4>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label
+                                    class="d-inline-flex align-items-center">Procurar:
+                                    <input type="text" name="searchTerm" class="form-control form-control-sm ml-2"
+                                        aria-controls="tickets-table" [(ngModel)]="term" /></label></div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-centered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Telefone</th>
+                                    <th>Documento</th>
+                                    <th>E-mail</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of listSupplier|filter:term">
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.phone}}</td>
+                                    <td>{{item.document}}</td>
+                                    <td>{{item.mail}}</td>
+                                    <td>
+                                        <a (click)="alterMode('edit',item.id)" class="mr-3 text-primary" ngbTooltip="Editar"><i
+                                                class="mdi mdi-pencil font-size-18"></i></a>
+                                        <a href="javascript:void(0);" (click)="delete(item.id)" class="text-danger" ngbTooltip="Excluir"><i
+                                                class="mdi mdi-trash-can font-size-18"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="mode=='add' || mode=='edit'" class="card">
+                <div class="card-body">
+                    <div class="dropdown float-right" ngbDropdown>
+                        <a href="javascript: void(0);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle
+                            data-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+                            <a href="javascript:void(0);" (click)="alterMode('view','')" class="dropdown-item">Lista de Fornecedores</a>
+                        </div>
+                    </div>
+                    <h4 class="card-title mb-4">Formulário Fornecedore</h4>
+                    <div class="form-horizontal">
+                        <div class="form-group auth-form-group-custom mb-4">
+                            <i class="ri-user-line auti-custom-input-icon"></i>
+                            <label for="name">Nome</label>
+                            <input type="text" class="form-control" name="name" [(ngModel)]="supplier.name"
+                                placeholder="Digite aqui o seu nome completo">
+                        </div>
+                        <div class="form-group auth-form-group-custom mb-4">
+                            <i class="ri-phone-line auti-custom-input-icon"></i>
+                            <label for="phone">Telefone</label>
+                            <input type="text" class="form-control" name="phone" [(ngModel)]="supplier.phone"
+                                placeholder="Digite aqui o seu telefone">
+                        </div>
+                        <div class="form-group auth-form-group-custom mb-4">
+                            <i class="ri-map-line auti-custom-input-icon"></i>
+                            <label for="address">Documento</label>
+                            <input type="text" class="form-control" name="address" [(ngModel)]="supplier.document"
+                                placeholder="Digite aqui o seu documento">
+                        </div>
+                        <div class="form-group auth-form-group-custom mb-4">
+                            <i class="ri-mail-line auti-custom-input-icon"></i>
+                            <label for="mail">E-mail</label>
+                            <input type="text" class="form-control" name="mail" [(ngModel)]="supplier.mail"
+                                placeholder="Digite aqui o seu e-mail">
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-primary w-md waves-effect waves-light" (click)="save()"
+                                type="button">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
